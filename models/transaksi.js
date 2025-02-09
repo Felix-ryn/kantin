@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     tanggal: DataTypes.DATE,
     id_stan: DataTypes.INTEGER,
     id_siswa: DataTypes.INTEGER,
-    status: DataTypes.ENUM
+    status: DataTypes.ENUM('belum dikonfirmasi', 'dimasak', 'diantar', 'sampai')
   }, {
     sequelize,
     modelName: 'Transaksi',
