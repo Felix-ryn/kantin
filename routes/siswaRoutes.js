@@ -2,8 +2,8 @@ const express = require('express');
 const controller = require('../controllers/siswaController');
 const router = express.Router();
 
-router.post('/register', siswaController.registerSiswa);
-router.post('/login', siswaController.loginSiswa);
+router.post('/register', controller.registerSiswa);
+router.post('/login', controller.loginSiswa);
 
 router.get('/', controller.getAll);
 router.post('/', controller.create);
