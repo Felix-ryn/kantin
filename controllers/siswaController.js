@@ -1,6 +1,4 @@
 const { Siswa } = require('../models');
-
-const { Siswa } = require('../models');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 
