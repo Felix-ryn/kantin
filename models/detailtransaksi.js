@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Detail transaksi milik satu transaksi
+      DetailTransaksi.belongsTo(models.Transaksi, { foreignKey: 'id_transaksi' });
+      // Detail transaksi memiliki satu menu
+      DetailTransaksi.belongsTo(models.Menu, { foreignKey: 'id_menu' });
     }
   }
   DetailTransaksi.init({
