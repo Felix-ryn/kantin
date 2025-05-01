@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "kantin",
+    "database": "joki_kantin_nafis",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
