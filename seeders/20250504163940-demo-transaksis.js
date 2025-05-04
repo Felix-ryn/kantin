@@ -20,12 +20,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-/*************  ✨ Windsurf Command ⭐  *************/
-  /**
-   * Revert the changes made by up().
-   * This will truncate the Transaksi table.
-   */
-/*******  30c63adc-8b71-4821-b40a-d09d30cece2d  *******/        tanggal: new Date('2025-05-03 12:15:00'),
+        tanggal: new Date('2025-05-03 12:15:00'),
         id_stan: 1, // Pastikan ini sesuai dengan ID stan yang ada di tabel 'stans'
         id_siswa: 3, // Pastikan ini sesuai dengan ID siswa yang ada di tabel 'siswas'
         status: 'diantar',
