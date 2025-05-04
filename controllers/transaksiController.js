@@ -120,3 +120,49 @@ exports.getBySiswa = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getHistoriByBulan = async (req, res) => {
+    try {
+      const { id_siswa } = req.params;
+      const { bulan, tahun } = req.query;
+  
+      if (!bulan || !tahun) {
+        return res.status(400).json({ error: 'Bulan dan tahun harus diisi' });
+      }
+  
+      // Buat range tanggal awal dan akhir untuk bulan & tahun yang diminta
+      const tanggalAwal = new Date(tahun, bulan - 1, 1); // bulan dikurangi 1 karena index 0
+      const tanggalAkhir = new Date(tahun, bulan, 0, 23, 59, 59); // hari terakhir bulan
+  
+      const histori = await Transaksi.findAll({
+        where: {
+          id_siswa,
+          tanggal: {
+            [require('sequelize').Op.between]: [tanggalAwal, tanggalAkhir]
+          }
+        },
+        include: [
+          {
+            model: DetailTransaksi,
+            as: 'detail_transaksis',
+            include: [
+              {
+                model: Menu,
+                as: 'menu'
+              }
+            ]
+          }
+        ],
+        order: [['tanggal', 'DESC']]
+      });
+  
+      res.json({
+        message: 'Histori transaksi berhasil diambil',
+        histori
+      });
+  
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
