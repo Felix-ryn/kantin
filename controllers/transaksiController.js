@@ -166,3 +166,91 @@ exports.getHistoriByBulan = async (req, res) => {
     }
   };
   
+  exports.updateStatus = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+  
+      const allowedStatus = ['belum dikonfirmasi', 'dimasak', 'diantar', 'sampai'];
+      if (!allowedStatus.includes(status)) {
+        return res.status(400).json({ error: 'Status tidak valid' });
+      }
+  
+      await Transaksi.update({ status }, { where: { id } });
+  
+      res.json({ message: 'Status pesanan berhasil diperbarui' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
+  exports.getPesananByBulan = async (req, res) => {
+    try {
+      const { id_stan } = req.params;
+      const { bulan, tahun } = req.query;
+  
+      if (!bulan || !tahun) {
+        return res.status(400).json({ error: 'Bulan dan tahun harus diisi' });
+      }
+  
+      const tanggalAwal = new Date(tahun, bulan - 1, 1);
+      const tanggalAkhir = new Date(tahun, bulan, 0, 23, 59, 59);
+  
+      const pesanan = await Transaksi.findAll({
+        where: {
+          id_stan,
+          tanggal: {
+            [require('sequelize').Op.between]: [tanggalAwal, tanggalAkhir]
+          }
+        },
+        include: [
+          {
+            model: DetailTransaksi,
+            as: 'detail_transaksis',
+            include: [{ model: Menu, as: 'menu' }]
+          }
+        ]
+      });
+  
+      res.json({ message: 'Data pesanan berhasil diambil', pesanan });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
+  exports.getPemasukanBulanan = async (req, res) => {
+    try {
+      const { id_stan } = req.params;
+      const { bulan, tahun } = req.query;
+  
+      const tanggalAwal = new Date(tahun, bulan - 1, 1);
+      const tanggalAkhir = new Date(tahun, bulan, 0, 23, 59, 59);
+  
+      const transaksi = await Transaksi.findAll({
+        where: {
+          id_stan,
+          tanggal: {
+            [require('sequelize').Op.between]: [tanggalAwal, tanggalAkhir]
+          }
+        },
+        include: [
+          {
+            model: DetailTransaksi,
+            as: 'detail_transaksis'
+          }
+        ]
+      });
+  
+      let total = 0;
+      transaksi.forEach(t => {
+        t.detail_transaksis.forEach(d => {
+          total += d.harga_beli * d.qty;
+        });
+      });
+  
+      res.json({ message: 'Rekap pemasukan berhasil', total });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
