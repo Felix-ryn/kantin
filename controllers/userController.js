@@ -32,3 +32,15 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getAll = async (req, res) => {
+    try {
+        const data = await User.findAll();
+        res.json({ 
+            message: 'Data retrieved successfully', 
+            data 
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

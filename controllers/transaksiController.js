@@ -1,5 +1,5 @@
 const { Transaksi, DetailTransaksi, Menu, Diskon } = require('../models');
-
+const { Op } = require('sequelize');
 exports.getAll = async (req, res) => {
     try {
         const data = await Transaksi.findAll();
@@ -14,7 +14,7 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const { id_siswa, id_stan, items } = req.body;
+        const { id_siswa, id_stan, items, tanggal } = req.body;
 
         // Validasi input
         if (!id_siswa || !id_stan || !items || !Array.isArray(items)) {
@@ -22,7 +22,7 @@ exports.create = async (req, res) => {
         }
 
         // Buat transaksi baru
-        const transaksi = await Transaksi.create({ id_siswa, id_stan, status: 'belum dikonfirmasi' });
+        const transaksi = await Transaksi.create({ tanggal, id_siswa, id_stan, status: 'belum dikonfirmasi' });
 
         let totalHarga = 0;
         for (let item of items) {
@@ -36,11 +36,11 @@ exports.create = async (req, res) => {
             // Cek diskon yang berlaku
             const diskon = await Diskon.findOne({
                 where: {
-                    id_stan,
-                    tanggal_awal: { $lte: new Date() },
-                    tanggal_akhir: { $gte: new Date() }
+                  id_stan,
+                  tanggal_awal: { [Op.lte]: tanggal},
+                  tanggal_akhir: { [Op.gte]: tanggal}
                 }
-            });
+              });
             
             if (diskon) {
                 hargaBeli -= (hargaBeli * diskon.persentase_diskon) / 100;
@@ -53,9 +53,10 @@ exports.create = async (req, res) => {
                 id_transaksi: transaksi.id,
                 id_menu: item.id_menu,
                 qty: item.qty,
-                harga_beli: hargaBeli
+                harga_beli: totalHarga, 
             });
         }
+        
 
         res.status(201).json({
             message: 'Transaksi berhasil dibuat',

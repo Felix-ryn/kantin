@@ -1,8 +1,8 @@
-const { Detail_transaksi } = require('../models');
+const { DetailTransaksi } = require('../models');
 
 exports.getAll = async (req, res) => {
     try {
-        const data = await Detail_transaksi.findAll();
+        const data = await DetailTransaksi.findAll();
         res.json({ 
             message: 'Data retrieved successfully', 
             data 
@@ -15,7 +15,7 @@ exports.getAll = async (req, res) => {
 exports.create = async (req, res) => {
     try {
         let data = req.body;
-        const newData = await Detail_transaksi.create(data);
+        const newData = await DetailTransaksi.create(data);
         res.status(201).json({ 
             message: 'Data created successfully', 
             newData 
@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         let data = req.body;
-        const updated = await Detail_transaksi.update(data, { where: { id: req.params.id } });
+        const updated = await DetailTransaksi.update(data, { where: { id: req.params.id } });
         res.json({ 
             message: 'Data updated successfully', 
             updated 
@@ -40,7 +40,7 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        await Detail_transaksi.destroy({ where: { id: req.params.id } });
+        await DetailTransaksi.destroy({ where: { id: req.params.id } });
         res.json({ 
             message: 'Data deleted successfully' 
         });
