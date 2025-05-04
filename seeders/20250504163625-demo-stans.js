@@ -7,7 +7,7 @@ module.exports = {
         nama_stan: 'Stan Sate',
         nama_pemilik: 'Budi',
         telp: '0811111111',
-        id_user: 1,
+        id_user: 9,
         createdAt: new Date(),
         updatedAt: new Date()
       }

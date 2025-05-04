@@ -8,7 +8,7 @@ module.exports = {
         persentase_diskon: 10.0,
         tanggal_awal: new Date('2025-05-01'),
         tanggal_akhir: new Date('2025-05-10'),
-        id_stan: 1, // Pastikan ini sesuai dengan ID stan yang ada di tabel 'stans'
+        id_stan: 5, // Pastikan ini sesuai dengan ID stan yang ada di tabel 'stans'
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -17,7 +17,7 @@ module.exports = {
         persentase_diskon: 20.0,
         tanggal_awal: new Date('2025-06-01'),
         tanggal_akhir: new Date('2025-06-10'),
-        id_stan: 2, // Pastikan ini sesuai dengan ID stan yang ada di tabel 'stans'
+        id_stan: 5, // Pastikan ini sesuai dengan ID stan yang ada di tabel 'stans'
         createdAt: new Date(),
         updatedAt: new Date(),
       },

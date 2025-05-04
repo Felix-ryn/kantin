@@ -1,26 +1,36 @@
-const { DetailTransaksi } = require('../models');
-
-const detailTransaksiData = [
-  {
-    transaksi_id: 1,
-    menu_id: 1, // Nasi Goreng
-    jumlah: 2,
-    harga_satuan: 15000,
-  },
-  {
-    transaksi_id: 2,
-    menu_id: 2, // Mie Goreng
-    jumlah: 1,
-    harga_satuan: 12000,
-  },
-];
+'use strict';
 
 module.exports = {
-  async up() {
-    await DetailTransaksi.bulkCreate(detailTransaksiData);
+  async up(queryInterface, Sequelize) {
+    await queryInterface.bulkInsert('detailtransaksis', [
+      {
+        id_transaksi: 7,
+        id_menu: 11,
+        qty: 2,
+        harga_beli: 10000,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id_transaksi: 8,
+        id_menu: 12,
+        qty: 1,
+        harga_beli: 8000,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id_transaksi: 8,
+        id_menu: 13,
+        qty: 3,
+        harga_beli: 12000,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ], {});
   },
 
-  async down() {
-    await DetailTransaksi.destroy({ where: {}, truncate: true });
-  },
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('detailtransaksis', null, {});
+  }
 };

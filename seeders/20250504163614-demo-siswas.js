@@ -7,7 +7,7 @@ module.exports = {
         nama_siswa: 'Felix Ryan',
         alamat: 'Jl. Contoh No.1',
         telp: '08123456789',
-        id_user: 2,
+        id_user: 9,
         foto: 'foto1.jpg',
         createdAt: new Date(),
         updatedAt: new Date()
