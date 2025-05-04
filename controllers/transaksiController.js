@@ -90,3 +90,33 @@ exports.delete = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getBySiswa = async (req, res) => {
+    try {
+        const { id_siswa } = req.params;
+
+        const transaksi = await Transaksi.findAll({
+            where: { id_siswa },
+            include: [
+                {
+                    model: DetailTransaksi,
+                    as: 'detail_transaksis',
+                    include: [
+                        {
+                            model: Menu,
+                            as: 'menu'
+                        }
+                    ]
+                }
+            ],
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.json({
+            message: 'Data transaksi siswa berhasil diambil',
+            transaksi
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

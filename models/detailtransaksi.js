@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class DetailTransaksi extends Model {
     /**
@@ -11,11 +12,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // Detail transaksi milik satu transaksi
-      DetailTransaksi.belongsTo(models.Transaksi, { foreignKey: 'id_transaksi' });
+      DetailTransaksi.belongsTo(models.Transaksi, {
+        foreignKey: 'id_transaksi',
+        as: 'transaksi'
+      });
+
       // Detail transaksi memiliki satu menu
-      DetailTransaksi.belongsTo(models.Menu, { foreignKey: 'id_menu' });
+      DetailTransaksi.belongsTo(models.Menu, {
+        foreignKey: 'id_menu',
+        as: 'menu'
+      });
     }
   }
+
   DetailTransaksi.init({
     id_transaksi: DataTypes.INTEGER,
     id_menu: DataTypes.INTEGER,
@@ -25,5 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'DetailTransaksi',
   });
+
   return DetailTransaksi;
 };
